@@ -3,18 +3,18 @@ import json
 import requests
 
 # ----------------------------
-# 👉 사용자 설정
+# 사용자 설정
 DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1386577371666321500/3JlFCvzrC0pFC1fRh2nvR2ku1j4FTVq4j-4K2v9spUYOwcA85jM0uNnH-Wnwq7y13ALW"
 ACCOUNTS = ["wannercashcow", "Fun_Viral_Vids"]
-MIN_LIKES = 100    # 최소 좋아요 수
-MIN_RETWEETS = 50  # 최소 리트윗 수
+MIN_LIKES = 100    # 최소 좋아요
+MIN_RETWEETS = 50  # 최소 리트윗
 # ----------------------------
 
 # Step 1: snscrape로 트윗 가져오기
 tweets = []
 
 for account in ACCOUNTS:
-    command = f"snscrape --jsonl twitter-user {account}"
+    command = f"python -m snscrape --jsonl twitter-user {account}"
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
     for line in result.stdout.splitlines():
         tweet = json.loads(line)
@@ -47,4 +47,3 @@ for tweet in high_score_tweets:
         print(f"Failed to send to Discord: {response.status_code} {response.text}")
 
 print(f"✅ Total sent: {len(high_score_tweets)} tweets")
-
